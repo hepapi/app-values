@@ -48,10 +48,10 @@ ingress:
       paths:
         - path: /
           pathType: Prefix
-  tls: []
-  #  - secretName: spring-petclinic-tls
-  #    hosts:
-  #      - spring.hepapi.com
+  tls: 
+   - secretName: spring-petclinic-extra-secret
+     hosts:
+      - spring.hepapi.com
 
 resources:
   limits:
