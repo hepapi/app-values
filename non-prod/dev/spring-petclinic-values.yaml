@@ -1,0 +1,88 @@
+replicaCount: 1
+
+image:
+  repository: my-nexus-repository-manager.nexus.svc.cluster.local:8082/repository/nexusimagerepository/spring-petclinic
+  tag: managed-by-jenkins
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - name: nexus-regcred
+
+nameOverride: "spring-petclinic"
+fullnameOverride: "spring-petclinic"
+
+serviceAccount:
+  create: false
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+podSecurityContext: {}
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 8080
+  targetPort: 8080
+  livenessProbe:
+    enabled: false
+    path: "/"
+    port: http
+  readinessProbe:
+    enabled: false
+    path: "/"
+    port: http
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: {}
+  hosts:
+    - host: spring.hepapi.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+  #  - secretName: spring-petclinic-tls
+  #    hosts:
+  #      - spring.hepapi.com
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 2Gi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 3
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+# nodeSelector:
+#   project: petclinic
+
+tolerations: []
+affinity: {}
+
+extraSecret:
+  name: spring-petclinic-extra-secret
+  data:
+    SPRING_DATASOURCE_USERNAME: "petclinic"
+    SPRING_DATASOURCE_PASSWORD: "petclinic"
+
+extraConfigMap:
+  name: spring-petclinic-extra-cm
+  data:
+    SPRING_JPA_HIBERNATE_DDL_AUTO: "update"
+    SPRING_DATASOURCE_URL: "jdbc:mysql://np-dev-mysql.database.svc.cluster.local:3306/petclinic"
+    SPRING_PROFILES_ACTIVE: "mysql"
