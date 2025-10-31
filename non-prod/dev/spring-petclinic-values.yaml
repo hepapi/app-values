@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: http://my-nexus-repository-manager.nexus.svc.cluster.local:8082/repository/nexusimagerepository/spring-petclinic
+  repository: my-nexus-repository-manager.nexus.svc.cluster.local:8082/repository/nexusimagerepository/spring-petclinic
   tag: managed-by-jenkins
   pullPolicy: IfNotPresent
 
