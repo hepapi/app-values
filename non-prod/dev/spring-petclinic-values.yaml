@@ -39,19 +39,25 @@ service:
     path: "/"
     port: http
 
-ingress:
-  enabled: true
-  className: "nginx"
-  annotations: {}
-  hosts:
-    - host: spring.hepapi.com
+
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: "letsencrypt"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    ingressClassName: "nginx"
+    pathType: Prefix
+    activeService: true
+    hosts:
+      - host: spring.hepapi.com
       paths:
         - path: /
           pathType: Prefix
-  tls: 
-   - secretName: spring-petclinic-extra-secret
-     hosts:
-      - spring.hepapi.com
+    tls:
+      - secretName: spring-hepapi-tls
+        hosts:
+          - spring.hepapi.com
 
 resources:
   limits:
