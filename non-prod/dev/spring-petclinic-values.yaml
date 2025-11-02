@@ -80,13 +80,13 @@ tolerations: []
 affinity: {}
 
 externalSecret:
-  name: spring-petclinic-extra-secret
+  name: spring-petclinic-external-secret
   namespace: dev
   secretStoreRef:
     name: vault-backend
     kind: ClusterSecretStore
   target:
-    name: spring-petclinic-extra-secret
+    name: spring-petclinic-external-secret
     creationPolicy: Owner
   data:
     - secretKey: SPRING_DATASOURCE_PASSWORD
