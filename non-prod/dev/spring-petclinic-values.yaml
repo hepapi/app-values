@@ -79,11 +79,24 @@ autoscaling:
 tolerations: []
 affinity: {}
 
-extraSecret:
+externalSecret:
   name: spring-petclinic-extra-secret
+  namespace: dev
+  secretStoreRef:
+    name: vault-backend
+    kind: ClusterSecretStore
+  target:
+    name: spring-petclinic-extra-secret
+    creationPolicy: Owner
   data:
-    SPRING_DATASOURCE_USERNAME: "petclinic"
-    SPRING_DATASOURCE_PASSWORD: "petclinic"
+    - secretKey: SPRING_DATASOURCE_PASSWORD
+      remoteRef:
+        key: prod
+        property: SPRING_DATASOURCE_PASSWORD
+    - secretKey: SPRING_DATASOURCE_USERNAME
+      remoteRef:
+        key: prod
+        property: SPRING_DATASOURCE_USERNAME
 
 extraConfigMap:
   name: spring-petclinic-extra-cm
