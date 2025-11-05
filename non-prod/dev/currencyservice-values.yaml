@@ -41,6 +41,20 @@ service:
   readinessProbe: 
     enabled: false
 
+ingress:
+  enabled: false
+  className: "nginx"
+  annotations: {}
+  hosts:
+    - host: currencyservice.hepapi.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+  #  - secretName: currencyservice-tls
+  #    hosts:
+  #      - currencyservice.hepapi.com
+
 resources:
   requests:
     cpu: 100m
