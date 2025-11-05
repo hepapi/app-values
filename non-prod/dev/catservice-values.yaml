@@ -1,0 +1,88 @@
+replicaCount: 1
+
+image:
+  repository: my-nexus-repository-manager.nexus.svc.cluster.local:8082/repository/nexusimagerepository/catservice-dev
+  tag: managed-by-jenkins
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - name: nexus-regcred
+
+nameOverride: "catservice"
+fullnameOverride: "catservice"
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: "catservice"
+
+podAnnotations: {}
+
+podSecurityContext: 
+  fsGroup: 1000
+  runAsGroup: 1000
+  runAsNonRoot: true
+  runAsUser: 1000
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  privileged: false
+  capabilities:
+    drop:
+      - ALL
+
+
+service:
+  type: ClusterIP
+  port: 7070
+  targetPort: 7070
+  livenessProbe:
+    enabled: false
+    path: "/"
+    port: http
+  readinessProbe:
+    enabled: false
+    path: "/"
+    port: http
+
+ingress:
+  enabled: false
+  className: "nginx"
+  annotations: {}
+  hosts:
+    - host: catservice.hepapi.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+  #  - secretName: catservice-tls
+  #    hosts:
+  #      - spring.hepapi.com
+
+resources:
+  limits:
+    cpu: 300m
+    memory: 300Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 256Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 3
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+# nodeSelector:
+#   project: petclinic
+
+tolerations: []
+affinity: {}
+
+
+extraConfigMap:
+  name: catservice-extra-cm
+  data:
+    REDIS_ADDR: "redis-cart:6379"
