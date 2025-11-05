@@ -1,20 +1,20 @@
 replicaCount: 1
 
 image:
-  repository: my-nexus-repository-manager.nexus.svc.cluster.local:8082/repository/nexusimagerepository/catservice-dev
+  repository: my-nexus-repository-manager.nexus.svc.cluster.local:8082/repository/nexusimagerepository/cartservice-dev
   tag: managed-by-jenkins
   pullPolicy: IfNotPresent
 
 imagePullSecrets:
   - name: nexus-regcred
 
-nameOverride: "catservice"
-fullnameOverride: "catservice"
+nameOverride: "cartservice"
+fullnameOverride: "cartservice"
 
 serviceAccount:
   create: true
   annotations: {}
-  name: "catservice"
+  name: "cartservice"
 
 podAnnotations: {}
 
@@ -51,12 +51,12 @@ ingress:
   className: "nginx"
   annotations: {}
   hosts:
-    - host: catservice.hepapi.com
+    - host: cartservice.hepapi.com
       paths:
         - path: /
           pathType: Prefix
   tls: []
-  #  - secretName: catservice-tls
+  #  - secretName: cartservice-tls
   #    hosts:
   #      - spring.hepapi.com
 
@@ -83,6 +83,6 @@ affinity: {}
 
 
 extraConfigMap:
-  name: catservice-extra-cm
+  name: cartservice-extra-cm
   data:
     REDIS_ADDR: "redis-cart:6379"
