@@ -1,0 +1,66 @@
+replicaCount: 1
+
+image:
+  repository: my-nexus-repository-manager.nexus.svc.cluster.local:8082/repository/nexusimagerepository/currencyservice-dev
+  tag: managed-by-jenkins
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - name: nexus-regcred
+
+nameOverride: "currencyservice"
+fullnameOverride: "currencyservice"
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: "currencyservice"
+
+podAnnotations: {}
+
+podSecurityContext:
+  fsGroup: 1000
+  runAsGroup: 1000
+  runAsNonRoot: true
+  runAsUser: 1000
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  privileged: false
+  capabilities:
+    drop:
+      - ALL
+
+service:
+  type: ClusterIP
+  port: 7000
+  targetPort: 7000
+  livenessProbe:
+    enabled: false
+  readinessProbe: 
+    enabled: false
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 64Mi
+  limits:
+    cpu: 200m
+    memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 3
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+tolerations: []
+affinity: {}
+
+extraConfigMap:
+  name: currencyservice-extra-cm
+  data:
+    PORT: "7000"
+    DISABLE_PROFILER: "1"
