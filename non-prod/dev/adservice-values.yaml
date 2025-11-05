@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: my-nexus-repository-manager.nexus.svc.cluster.local:8082/repository/nexusimagerepository/adservice
+  repository: my-nexus-repository-manager.nexus.svc.cluster.local:8082/repository/nexusimagerepository/adservice-dev
   tag: managed-by-jenkins
   pullPolicy: IfNotPresent
 
