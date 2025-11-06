@@ -85,4 +85,4 @@ affinity: {}
 extraConfigMap:
   name: cartservice-extra-cm
   data:
-    REDIS_ADDR: "redis-cart:6379"
+    REDIS_ADDR: "redis-cart-master:6379"
