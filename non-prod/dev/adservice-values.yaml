@@ -1,89 +1,61 @@
+nameOverride: "adservice"
+
 replicaCount: 1
 
 image:
-  repository: my-nexus-repository-manager.nexus.svc.cluster.local:8082/repository/nexusimagerepository/adservice-dev
-  tag: managed-by-jenkins
+  repository: adservice
+  tag: "latest"
   pullPolicy: IfNotPresent
-
-imagePullSecrets:
-  - name: nexus-regcred
-
-nameOverride: "adservice"
-fullnameOverride: "adservice"
-
-serviceAccount:
-  create: true
-  annotations: {}
-  name: "adservice"
-
-podAnnotations: 
-  instrumentation.opentelemetry.io/inject-java: monitoring/java-instrumentation
-
-podSecurityContext: 
-  fsGroup: 1000
-  runAsGroup: 1000
-  runAsNonRoot: true
-  runAsUser: 1000
-
-securityContext:
-  allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: true
-  privileged: false
-  capabilities:
-    drop:
-      - ALL
-
 
 service:
   type: ClusterIP
   port: 9555
   targetPort: 9555
+  portName: grpc
+
+  # HTTP probe değil, gRPC probe kullanılacak
   livenessProbe:
-    enabled: false
-    path: "/"
-    port: http
+    enabled: false   # http'yi kapatıyoruz
+
   readinessProbe:
     enabled: false
-    path: "/"
-    port: http
 
-ingress:
-  enabled: false
-  className: "nginx"
-  annotations: {}
-  hosts:
-    - host: adservice.hepapi.com
-      paths:
-        - path: /
-          pathType: Prefix
-  tls: []
-  #  - secretName: adservice-tls
-  #    hosts:
-  #      - spring.hepapi.com
+  # gRPC probelar
+  grpcProbe:
+    enabled: true
+    port: 9555
+    initialDelaySeconds: 20
+    periodSeconds: 15
+
+  startupProbeGrpc:
+    enabled: false  # istersen açarsın
+
+env:
+  - name: PORT
+    value: "9555"
+
+serviceAccount:
+  create: true
+  name: "adservice"
 
 resources:
+  requests:
+    cpu: "200m"
+    memory: "180Mi"
   limits:
-    cpu: 300m
-    memory: 300Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 256Mi
+    cpu: "300m"
+    memory: "300Mi"
 
-autoscaling:
-  enabled: false
-  minReplicas: 3
-  maxReplicas: 5
-  targetCPUUtilizationPercentage: 80
-  targetMemoryUtilizationPercentage: 80
+securityContext:
+  allowPrivilegeEscalation: false
+  privileged: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
 
-# nodeSelector:
-#   project: petclinic
-
-tolerations: []
-affinity: {}
-
-
-extraConfigMap:
-  name: adservice-extra-cm
-  data:
-    PORT: "9555"
+podSecurityContext:
+  fsGroup: 1000
+  runAsGroup: 1000
+  runAsNonRoot: true
+  runAsUser: 1000
