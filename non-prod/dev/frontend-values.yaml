@@ -35,7 +35,7 @@ securityContext:
 
 
 service:
-  type: NodePort
+  type: ClusterIP
   port: 80
   targetPort: 8080
   livenessProbe:
@@ -48,18 +48,23 @@ service:
     port: 8080
 
 ingress:
-  enabled: false
-  className: "nginx"
-  annotations: {}
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+  ingressClassName: "nginx"
+  pathType: Prefix
+  activeService: true
   hosts:
     - host: frontend.hepapi.com
       paths:
         - path: /
           pathType: Prefix
-  tls: []
-  #  - secretName: frontend-tls
-  #    hosts:
-  #      - spring.hepapi.com
+  tls:
+    - secretName: frontend-hepapi-tls
+      hosts:
+        - frontend.hepapi.com
 
 resources:
   limits:
