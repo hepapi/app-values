@@ -35,6 +35,19 @@ securityContext:
       - ALL
 
 
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+  livenessProbe:
+    enabled: false
+    path: "/"
+    port: http
+  readinessProbe:
+    enabled: false
+    path: "/_healthz"
+    port: 8080
+
 initContainers:
   - name: frontend-check
     image: busybox:latest
