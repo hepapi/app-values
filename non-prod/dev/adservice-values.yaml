@@ -1,50 +1,29 @@
-nameOverride: "adservice"
-
 replicaCount: 1
 
 image:
-  repository: adservice
-  tag: "latest"
+  repository: my-nexus-repository-manager.nexus.svc.cluster.local:8082/repository/nexusimagerepository/adservice-dev
+  tag: managed-by-jenkins
   pullPolicy: IfNotPresent
 
-service:
-  type: ClusterIP
-  port: 9555
-  targetPort: 9555
-  portName: grpc
+imagePullSecrets:
+  - name: nexus-regcred
 
-  # HTTP probe değil, gRPC probe kullanılacak
-  livenessProbe:
-    enabled: false   # http'yi kapatıyoruz
-
-  readinessProbe:
-    enabled: false
-
-  # gRPC probelar
-  grpcProbe:
-    enabled: true
-    port: 9555
-    initialDelaySeconds: 20
-    periodSeconds: 15
-
-  startupProbeGrpc:
-    enabled: false  # istersen açarsın
-
-env:
-  - name: PORT
-    value: "9555"
+nameOverride: "adservice"
+fullnameOverride: "adservice"
 
 serviceAccount:
   create: true
+  annotations: {}
   name: "adservice"
 
-resources:
-  requests:
-    cpu: "200m"
-    memory: "180Mi"
-  limits:
-    cpu: "300m"
-    memory: "300Mi"
+podAnnotations: {}
+
+podSecurityContext:
+  fsGroup: 1000
+  runAsGroup: 1000
+  runAsNonRoot: true
+  runAsUser: 1000
+
 
 securityContext:
   allowPrivilegeEscalation: false
@@ -54,8 +33,75 @@ securityContext:
     drop:
       - ALL
 
-podSecurityContext:
-  fsGroup: 1000
-  runAsGroup: 1000
-  runAsNonRoot: true
-  runAsUser: 1000
+service:
+  type: ClusterIP
+  port: 9555
+  targetPort: 9555
+  portName: "grpc"
+
+
+  # gRPC probe toggle
+  grpcProbe:
+    enabled: true
+    port: 9555
+
+    # LIVENESS
+    initialDelaySeconds: 20
+    periodSeconds: 15
+
+    # READINESS 
+    readinessInitialDelaySeconds: 20
+    readinessPeriodSeconds: 15
+
+
+
+  # HTTP probe disabled
+  livenessProbe:
+    enabled: false
+  readinessProbe:
+    enabled: false
+  startupProbe:
+    enabled: false
+
+
+
+
+resources:
+  requests:
+    cpu: 200m
+    memory: 180Mi
+  limits:
+    cpu: 300m
+    memory: 300Mi
+
+env:
+  - name: PORT
+    value: "9555"
+
+terminationGracePeriodSeconds: 5
+
+
+# extraConfigMap:
+#   name: adservice-extra-cm
+#   data:
+#     REDIS_ADDR: "redis-cart-master:6379"
+
+
+extraSecrets: {}
+
+ingress:
+  enabled: false
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+  hosts:
+    - host: frontend.hepapi.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: frontend-hepapi-tls
+      hosts:
+        - frontend.hepapi.com
