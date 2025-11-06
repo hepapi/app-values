@@ -38,6 +38,7 @@ service:
   type: ClusterIP
   port: 80
   targetPort: 8080
+  portName: "grpc"
   livenessProbe:
     enabled: false
     path: "/"
@@ -46,6 +47,23 @@ service:
     enabled: false
     path: "/_healthz"
     port: 8080
+
+
+  # gRPC probe toggle
+  grpcProbe:
+    enabled: true
+    port: 8080
+
+    # LIVENESS
+    initialDelaySeconds: 20
+    periodSeconds: 15
+
+    # READINESS 
+    readinessInitialDelaySeconds: 20
+    readinessPeriodSeconds: 15
+
+
+
 
 ingress:
   enabled: true
@@ -88,22 +106,41 @@ tolerations: []
 affinity: {}
 
 
-extraConfigMap:
-  name: frontend-extra-cm
-  data:
-    PORT: "8080"
-    PRODUCT_CATALOG_SERVICE_ADDR: "productcatalogservice:3550"
-    CURRENCY_SERVICE_ADDR: "currencyservice:7000"
-    CART_SERVICE_ADDR: "cartservice:7070"
-    RECOMMENDATION_SERVICE_ADDR: "recommendationservice:8080"
-    SHIPPING_SERVICE_ADDR: "shippingservice:50051"
-    CHECKOUT_SERVICE_ADDR: "checkoutservice:5050"
-    AD_SERVICE_ADDR: "adservice:9555"
-    SHOPPING_ASSISTANT_SERVICE_ADDR: "shoppingassistantservice:80"
-    ENABLE_PROFILER: "0"
-    # ENV_PLATFORM: "aws"
-    # CYMBAL_BRANDING: "true"
-    # ENABLE_ASSISTANT: "true"
-    # FRONTEND_MESSAGE: "Replace this with a message you want to display on all pages."
-    # PACKAGING_SERVICE_URL: ""  # örn: "http://123.123.123"
+env:
+  - name: PORT
+    value: "8080"
+  - name: PRODUCT_CATALOG_SERVICE_ADDR
+    value: "productcatalogservice:3550"
+  - name: CURRENCY_SERVICE_ADDR
+    value: "currencyservice:7000"
+  - name: CART_SERVICE_ADDR
+    value: "cartservice:7070"
+  - name: RECOMMENDATION_SERVICE_ADDR
+    value: "recommendationservice:8080"
+  - name: SHIPPING_SERVICE_ADDR
+    value: "shippingservice:50051"
+  - name: CHECKOUT_SERVICE_ADDR
+    value: "checkoutservice:5050"
+  - name: AD_SERVICE_ADDR
+    value: "adservice:9555"
+  - name: SHOPPING_ASSISTANT_SERVICE_ADDR
+    value: "shoppingassistantservice:80"
+  - name: ENABLE_PROFILER
+    value: "0"
+
+  # - name: ENV_PLATFORM
+  #   value: "aws"
+
+  # - name: CYMBAL_BRANDING
+  #   value: "true"
+
+  # - name: ENABLE_ASSISTANT
+  #   value: "true"
+
+  # - name: FRONTEND_MESSAGE
+  #   value: "Replace this with a message you want to display on all pages."
+
+  # - name: PACKAGING_SERVICE_URL
+  #   value: ""  # örn: "http://123.123.123"
+
 
