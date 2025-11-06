@@ -91,6 +91,9 @@ resources:
 autoscaling:
   enabled: false
 
+ingress:
+  enabled: false
+
 tolerations: []
 affinity: {}
 
