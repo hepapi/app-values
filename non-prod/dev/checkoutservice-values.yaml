@@ -41,6 +41,19 @@ service:
   readinessProbe:
     enabled: false   
 
+  # gRPC probe toggle
+  grpcProbe:
+    enabled: true
+    port: 5050
+
+    # LIVENESS
+    initialDelaySeconds: 20
+    periodSeconds: 15
+
+    # READINESS 
+    readinessInitialDelaySeconds: 20
+    readinessPeriodSeconds: 15
+
 ingress:
   enabled: false
   className: "nginx"
@@ -70,13 +83,21 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
 
-extraConfigMap:
-  name: checkoutservice-extra-cm
-  data:
-    PRODUCT_CATALOG_SERVICE_ADDR: "productcatalogservice:3550"
-    SHIPPING_SERVICE_ADDR: "shippingservice:50051"
-    PAYMENT_SERVICE_ADDR: "paymentservice:50051"
-    EMAIL_SERVICE_ADDR: "emailservice:5000"
-    CURRENCY_SERVICE_ADDR: "currencyservice:7000"
-    CART_SERVICE_ADDR: "cartservice:7070"
-    PORT: "5050"
+env:
+  - name: PRODUCT_CATALOG_SERVICE_ADDR
+    value: "productcatalogservice:3550"
+  - name: SHIPPING_SERVICE_ADDR
+    value: "shippingservice:50051"
+  - name: PAYMENT_SERVICE_ADDR
+    value: "paymentservice:50051"
+  - name: EMAIL_SERVICE_ADDR
+    value: "emailservice:5000"
+  - name: CURRENCY_SERVICE_ADDR
+    value: "currencyservice:7000"
+  - name: CART_SERVICE_ADDR
+    value: "cartservice:7070"
+  - name: PORT
+    value: "5050"
+
+
+
