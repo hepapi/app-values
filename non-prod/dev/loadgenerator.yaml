@@ -1,0 +1,103 @@
+replicaCount: 1
+
+image:
+  repository: my-nexus-repository-manager.nexus.svc.cluster.local:8082/repository/nexusimagerepository/loadgenerator-dev
+  tag: managed-by-jenkins
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - name: nexus-regcred
+
+nameOverride: "loadgenerator"
+fullnameOverride: "loadgenerator"
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: "loadgenerator"
+
+podAnnotations: 
+  instrumentation.opentelemetry.io/inject-java: monitoring/java-instrumentation
+  sidecar.istio.io/rewriteAppHTTPProbers: "true"
+
+podSecurityContext: 
+  fsGroup: 1000
+  runAsGroup: 1000
+  runAsNonRoot: true
+  runAsUser: 1000
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  privileged: false
+  capabilities:
+    drop:
+      - ALL
+
+
+initContainers:
+  - name: frontend-check
+    image: busybox:latest
+    command:
+      - /bin/sh
+      - -exc
+      - |
+        MAX_RETRIES=12
+        RETRY_INTERVAL=10
+        for i in $(seq 1 $MAX_RETRIES); do
+          echo "Attempt $i: Pinging frontend: ${FRONTEND_ADDR}..."
+          STATUSCODE=$(wget --server-response http://${FRONTEND_ADDR} 2>&1 | awk '/^  HTTP/{print $2}')
+          if [ $STATUSCODE -eq 200 ]; then
+              echo "Frontend is reachable."
+              exit 0
+          fi
+          echo "Error: Could not reach frontend - Status code: ${STATUSCODE}"
+          sleep $RETRY_INTERVAL
+        done
+        echo "Failed to reach frontend after $MAX_RETRIES attempts."
+        exit 1
+
+
+ingress:
+  enabled: false
+  className: "nginx"
+  annotations: {}
+  hosts:
+    - host: loadgenerator.hepapi.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+  #  - secretName: loadgenerator-tls
+  #    hosts:
+  #      - spring.hepapi.com
+
+resources:
+  limits:
+    cpu: 300m
+    memory: 300Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 256Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 3
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+# nodeSelector:
+#   project: petclinic
+
+tolerations: []
+affinity: {}
+
+
+extraConfigMap:
+  name: loadgenerator-extra-cm
+  data:
+    FRONTEND_ADDR: "frontend:80"
+    USERS: "10"
+    RATE: "1"
+
