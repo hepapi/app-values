@@ -105,6 +105,8 @@ autoscaling:
 tolerations: []
 affinity: {}
 
+extraConfigMap: null
+
 
 env:
   - name: PORT
