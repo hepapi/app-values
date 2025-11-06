@@ -36,10 +36,29 @@ service:
   type: ClusterIP
   port: 7000
   targetPort: 8080
+  portName: "grpc"
   livenessProbe:
     enabled: false
   readinessProbe: 
     enabled: false
+
+  # gRPC probe toggle
+  grpcProbe:
+    enabled: true
+    port: 8080
+
+    # LIVENESS
+    initialDelaySeconds: 20
+    periodSeconds: 15
+
+    # READINESS 
+    readinessInitialDelaySeconds: 20
+    readinessPeriodSeconds: 15
+
+
+
+
+
 
 ingress:
   enabled: false
@@ -62,8 +81,14 @@ autoscaling:
 tolerations: []
 affinity: {}
 
-extraConfigMap:
-  name: emailservice-extra-cm
-  data:
-    PORT: "8080"
-    DISABLE_PROFILER: "1"
+# extraConfigMap:
+#   name: emailservice-extra-cm
+#   data:
+#     PORT: "8080"
+#     DISABLE_PROFILER: "1"
+
+env:
+  - name: PORT
+    value: "8080"
+  - name: DISABLE_PROFILER
+    value: "1"
