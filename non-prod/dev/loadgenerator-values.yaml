@@ -106,10 +106,11 @@ tolerations: []
 affinity: {}
 
 
-extraConfigMap:
-  name: loadgenerator-extra-cm
-  data:
-    FRONTEND_ADDR: "frontend:80"
-    USERS: "10"
-    RATE: "1"
+env:
+  - name: FRONTEND_ADDR
+    value: "frontend:80"
+  - name: USERS
+    value: "10"
+  - name: RATE
+    value: "1"
 
