@@ -36,10 +36,26 @@ service:
   type: ClusterIP
   port: 7000
   targetPort: 7000
+  portName: "grpc"
   livenessProbe:
     enabled: false
   readinessProbe: 
     enabled: false
+
+  # gRPC probe toggle
+  grpcProbe:
+    enabled: true
+    port: 7000
+
+    # LIVENESS
+    initialDelaySeconds: 20
+    periodSeconds: 15
+
+    # READINESS 
+    readinessInitialDelaySeconds: 20
+    readinessPeriodSeconds: 15
+
+
 
 ingress:
   enabled: false
@@ -73,8 +89,15 @@ autoscaling:
 tolerations: []
 affinity: {}
 
-extraConfigMap:
-  name: currencyservice-extra-cm
-  data:
-    PORT: "7000"
-    DISABLE_PROFILER: "1"
+# extraConfigMap:
+#   name: currencyservice-extra-cm
+#   data:
+#     PORT: "7000"
+#     DISABLE_PROFILER: "1"
+
+
+env:
+  - name: PORT
+    value: "7000"
+  - name: DISABLE_PROFILER
+    value: "1"
