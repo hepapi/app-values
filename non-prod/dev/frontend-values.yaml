@@ -13,13 +13,12 @@ fullnameOverride: "frontend"
 
 serviceAccount:
   create: true
-  annotations: {}
   name: "frontend"
 
-podAnnotations: 
+podAnnotations:
   sidecar.istio.io/rewriteAppHTTPProbers: "true"
 
-podSecurityContext: 
+podSecurityContext:
   fsGroup: 1000
   runAsGroup: 1000
   runAsNonRoot: true
@@ -33,37 +32,30 @@ securityContext:
     drop:
       - ALL
 
-
 service:
   type: ClusterIP
   port: 80
   targetPort: 8080
-  portName: "grpc"
-  livenessProbe:
-    enabled: false
-    path: "/"
-    port: http
-  readinessProbe:
-    enabled: false
-    path: "/_healthz"
-    port: 8080
+  portName: "http"   # <-- grpc değildi, düzelttik
 
+livenessProbe:
+  enabled: true
+  path: "/_healthz"
+  port: 8080
+  initialDelaySeconds: 10
+  timeoutSeconds: 3
+  periodSeconds: 10
 
-  # gRPC probe toggle
-  grpcProbe:
-    enabled: true
-    port: 8080
+readinessProbe:
+  enabled: true
+  path: "/_healthz"
+  port: 8080
+  initialDelaySeconds: 10
+  timeoutSeconds: 3
+  periodSeconds: 10
 
-    # LIVENESS
-    initialDelaySeconds: 20
-    periodSeconds: 15
-
-    # READINESS 
-    readinessInitialDelaySeconds: 20
-    readinessPeriodSeconds: 15
-
-
-
+grpcProbe:
+  enabled: false   # <-- kapatıldı çünkü frontend GRPC değil
 
 ingress:
   enabled: true
@@ -78,7 +70,6 @@ ingress:
     - host: frontend.hepapi.com
       paths:
         - path: /
-          pathType: Prefix
   tls:
     - secretName: frontend-hepapi-tls
       hosts:
@@ -88,9 +79,6 @@ resources:
   limits:
     cpu: 300m
     memory: 300Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 256Mi
 
 autoscaling:
   enabled: false
@@ -98,15 +86,6 @@ autoscaling:
   maxReplicas: 5
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
-
-# nodeSelector:
-#   project: petclinic
-
-tolerations: []
-affinity: {}
-
-extraConfigMap: null
-
 
 env:
   - name: PORT
@@ -129,20 +108,3 @@ env:
     value: "shoppingassistantservice:80"
   - name: ENABLE_PROFILER
     value: "0"
-
-  # - name: ENV_PLATFORM
-  #   value: "aws"
-
-  # - name: CYMBAL_BRANDING
-  #   value: "true"
-
-  # - name: ENABLE_ASSISTANT
-  #   value: "true"
-
-  # - name: FRONTEND_MESSAGE
-  #   value: "Replace this with a message you want to display on all pages."
-
-  # - name: PACKAGING_SERVICE_URL
-  #   value: ""  # örn: "http://123.123.123"
-
-
