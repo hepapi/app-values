@@ -46,6 +46,23 @@ service:
     path: "/"
     port: http
 
+
+  # gRPC probe toggle
+  grpcProbe:
+    enabled: true
+    port: 7070
+
+    # LIVENESS
+    initialDelaySeconds: 20
+    periodSeconds: 15
+
+    # READINESS 
+    readinessInitialDelaySeconds: 20
+    readinessPeriodSeconds: 15
+
+
+
+
 ingress:
   enabled: false
   className: "nginx"
@@ -63,7 +80,7 @@ ingress:
 resources:
   limits:
     cpu: 300m
-    memory: 300Mi
+    memory: 128Mi
   # requests:
   #   cpu: 100m
   #   memory: 256Mi
@@ -82,7 +99,11 @@ tolerations: []
 affinity: {}
 
 
-extraConfigMap:
-  name: cartservice-extra-cm
-  data:
-    REDIS_ADDR: "redis-cart-master:6379"
+# extraConfigMap:
+#   name: cartservice-extra-cm
+#   data:
+#     REDIS_ADDR: "redis-cart-master:6379"
+
+env:
+  - name: REDIS_ADDR
+    value: "redis-cart:6379"
