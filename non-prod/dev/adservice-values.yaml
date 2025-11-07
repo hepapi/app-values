@@ -16,7 +16,8 @@ serviceAccount:
   annotations: {}
   name: "adservice"
 
-podAnnotations: {}
+podAnnotations:
+  instrumentation.opentelemetry.io/inject-java: monitoring/java-instrumentation
 
 podSecurityContext:
   fsGroup: 1000
