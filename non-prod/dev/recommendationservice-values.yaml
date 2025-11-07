@@ -17,7 +17,7 @@ serviceAccount:
   name: "recommendationservice"
 
 podAnnotations: 
-  instrumentation.opentelemetry.io/inject-java: monitoring/java-instrumentation
+  instrumentation.opentelemetry.io/inject-python: monitoring/python-instrumentation
 
 podSecurityContext: 
   fsGroup: 1000
