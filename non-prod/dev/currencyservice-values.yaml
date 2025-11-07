@@ -16,7 +16,8 @@ serviceAccount:
   annotations: {}
   name: "currencyservice"
 
-podAnnotations: {}
+podAnnotations:
+  instrumentation.opentelemetry.io/inject-nodejs: monitoring/nodejs-instrumentation
 
 podSecurityContext:
   fsGroup: 1000
