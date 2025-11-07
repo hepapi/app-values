@@ -16,7 +16,8 @@ serviceAccount:
   annotations: {}
   name: "cartservice"
 
-podAnnotations: {}
+podAnnotations: 
+  instrumentation.opentelemetry.io/inject-dotnet: monitoring/dotnet-instrumentation
 
 podSecurityContext: 
   fsGroup: 1000
