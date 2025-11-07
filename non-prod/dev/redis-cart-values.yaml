@@ -1,7 +1,7 @@
-replicaCount: 1
-
 nameOverride: "redis-cart"
 fullnameOverride: "redis-cart"
+
+replicaCount: 1
 
 image:
   repository: redis
@@ -30,32 +30,35 @@ service:
   type: ClusterIP
   port: 6379
   targetPort: 6379
-  portName: tcp-redis  
+  portName: tcp-redis
 
+  # TCP PROBE ENABLED 
+  tcpProbe:
+    enabled: true
+    port: 6379
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 5
+    failureThreshold: 3
+    readinessInitialDelaySeconds: 5
+    readinessPeriodSeconds: 5
+    readinessTimeoutSeconds: 5
+    readinessFailureThreshold: 3
+
+  # gRPC / HTTP PROBE DISABLED
+  grpcProbe:
+    enabled: false
   livenessProbe:
-    enabled: true
-    tcpSocket: true
-    port: 6379
-    initialDelaySeconds: 5
-    periodSeconds: 5
-    timeoutSeconds: 5
-    failureThreshold: 3
-
+    enabled: false
   readinessProbe:
-    enabled: true
-    tcpSocket: true
-    port: 6379
-    initialDelaySeconds: 5
-    periodSeconds: 5
-    timeoutSeconds: 5
-    failureThreshold: 3
+    enabled: false
+  startupProbe:
+    enabled: false
 
 
-extraSecret: null
-
-
-ingress:
-  enabled: false
+persistence:
+  enabled: false  
+  mountPath: /data
 
 extraVolumes:
   - name: redis-data
@@ -65,6 +68,15 @@ extraVolumeMounts:
   - name: redis-data
     mountPath: /data
 
+
+env: []
+# env:
+#   - name: REDIS_PASSWORD
+#     valueFrom:
+#       secretKeyRef:
+#         name: redis-secret
+#         key: password
+
 resources:
   requests:
     cpu: 70m
@@ -73,5 +85,18 @@ resources:
     cpu: 125m
     memory: 256Mi
 
+
 autoscaling:
+  enabled: false
+
+
+imagePullSecrets:
+  - name: dockerhub-secret
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+
+ingress:
   enabled: false
