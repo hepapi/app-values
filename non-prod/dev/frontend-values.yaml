@@ -19,6 +19,7 @@ serviceAccount:
 podAnnotations: 
   sidecar.istio.io/rewriteAppHTTPProbers: "true"
   instrumentation.opentelemetry.io/inject-go: monitoring/go-instrumentation
+  instrumentation.opentelemetry.io/otel-go-auto-target-exe: /src/server
 
 podSecurityContext: 
   fsGroup: 1000
