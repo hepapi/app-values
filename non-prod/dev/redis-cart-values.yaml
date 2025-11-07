@@ -1,0 +1,76 @@
+replicaCount: 1
+
+image:
+  repository: redis
+  tag: alpine
+  pullPolicy: IfNotPresent
+
+nameOverride: "redis-cart"
+fullnameOverride: "redis-cart"
+
+serviceAccount:
+  create: true
+  name: "redis-cart"
+
+podAnnotations: {}
+
+podSecurityContext:
+  fsGroup: 1000
+  runAsGroup: 1000
+  runAsNonRoot: true
+  runAsUser: 1000
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  privileged: false
+  capabilities:
+    drop:
+      - ALL
+
+terminationGracePeriodSeconds: 5
+
+service:
+  type: ClusterIP
+  port: 6379
+  targetPort: 6379
+  portName: tcp-redis
+  livenessProbe:
+    enabled: true
+    path: "/"
+    port: 6379
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 5
+    failureThreshold: 3
+  readinessProbe:
+    enabled: true
+    path: "/"
+    port: 6379
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 5
+    failureThreshold: 3
+
+# Volume mount for Redis data
+extraVolumes:
+  - name: redis-data
+    emptyDir: {}
+
+extraVolumeMounts:
+  - name: redis-data
+    mountPath: /data
+
+resources:
+  requests:
+    cpu: 70m
+    memory: 200Mi
+  limits:
+    cpu: 125m
+    memory: 256Mi
+
+autoscaling:
+  enabled: false
+
+tolerations: []
+affinity: {}
