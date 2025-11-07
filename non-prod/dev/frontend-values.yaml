@@ -18,6 +18,7 @@ serviceAccount:
 
 podAnnotations: 
   sidecar.istio.io/rewriteAppHTTPProbers: "true"
+  instrumentation.opentelemetry.io/inject-java: monitoring/java-instrumentation
 
 podSecurityContext: 
   fsGroup: 1000
