@@ -23,11 +23,10 @@ podAnnotations:
 podSecurityContext: 
   fsGroup: 1000
   runAsGroup: 1000
-  runAsUser: 0
+  runAsUser: 1000
 
 securityContext:
   privileged: true
-  runAsUser: 0
   allowPrivilegeEscalation: true
 
 
