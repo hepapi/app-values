@@ -16,21 +16,19 @@ serviceAccount:
   annotations: {}
   name: "checkoutservice"
 
-podAnnotations: {}
+podAnnotations:
+  instrumentation.opentelemetry.io/inject-go: "monitoring/go-instrumentation"
+  instrumentation.opentelemetry.io/otel-go-auto-target-exe: "/src/checkoutservice"
 
 podSecurityContext:
   fsGroup: 1000
   runAsGroup: 1000
-  runAsNonRoot: true
-  runAsUser: 1000
+  runAsUser: 0
 
 securityContext:
-  allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: true
-  privileged: false
-  capabilities:
-    drop:
-      - ALL
+  privileged: true
+  runAsUser: 0
+
 
 service:
   type: ClusterIP
