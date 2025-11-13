@@ -24,6 +24,7 @@ podSecurityContext:
   fsGroup: 1000
   runAsGroup: 1000
   runAsUser: 0
+  runAsNonRoot: false
 
 securityContext:
   privileged: true
