@@ -17,7 +17,7 @@ serviceAccount:
   name: "emailservice"
 
 podAnnotations:
-  instrumentation.opentelemetry.io/inject-python: monitoring/python-instrumentation
+  instrumentation.opentelemetry.io/inject-python: monitoring/python-instrumentation-2
 
 podSecurityContext:
   fsGroup: 1000
