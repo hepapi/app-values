@@ -16,7 +16,9 @@ serviceAccount:
   annotations: {}
   name: ""
 
-podAnnotations: {}
+podAnnotations:
+  instrumentation.opentelemetry.io/inject-java: monitoring/java-instrumentation
+
 podSecurityContext: {}
 securityContext: {}
   # capabilities:
