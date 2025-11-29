@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: registry.hepapi.com/repository/nexusimagerepository/spring-petclinic
+  repository: managed-by-jenkins
   tag: managed-by-jenkins
   pullPolicy: IfNotPresent
 
