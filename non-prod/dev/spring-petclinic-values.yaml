@@ -104,4 +104,4 @@ extraConfigMap:
   data:
     SPRING_JPA_HIBERNATE_DDL_AUTO: "update"
     SPRING_DATASOURCE_URL: "jdbc:mysql://np-dev-mysql.database.svc.cluster.local:3306/petclinic"
-    SPRING_PROFILES_ACTIVE: "mysql"
+    SPRING_PROFILES_ACTIVE: "sql"
