@@ -93,18 +93,18 @@ externalSecret:
   data:
     - secretKey: GOOGLE_CLIENT_SECRET
       remoteRef:
-        key: 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
+        key: "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"
         property: GOOGLE_CLIENT_SECRET
     - secretKey: JWT_SECRET
       remoteRef:
-        key: 0158d469-5861-4989-8e55-77be9e4f8320
+        key: "0158d469-5861-4989-8e55-77be9e4f8320"
         property: JWT_SECRET
 
 extraConfigMap:
   name: hepsheet-extra-cm
   data:
-    NEXT_PUBLIC_API_URL: https://hepsheetapi.hepapi.com
-    NEXT_PUBLIC_GOOGLE_REDIRECT_URI: https://hepsheetapi.hepapi.com/api/auth/callback/google
-    NEXT_PUBLIC_GOOGLE_CLIENT_ID: 1035129365942-p7o81tm5fb8q9j6493jceabddf848uje.apps.googleusercontent.com
-    NEXT_PUBLIC_SITE_URL: https://hepsheetapi.hepapi.com
+    NEXT_PUBLIC_API_URL: "https://hepsheetapi.hepapi.com"
+    NEXT_PUBLIC_GOOGLE_REDIRECT_URI: "https://hepsheetapi.hepapi.com/api/auth/callback/google"
+    NEXT_PUBLIC_GOOGLE_CLIENT_ID: "1035129365942-p7o81tm5fb8q9j6493jceabddf848uje.apps.googleusercontent.com"
+    NEXT_PUBLIC_SITE_URL: "https://hepsheetapi.hepapi.com"
 
