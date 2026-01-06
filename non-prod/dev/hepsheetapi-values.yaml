@@ -144,7 +144,7 @@ externalSecret:
         property: DEFAULT_PASSWORD
 
 extraConfigMap:
-  name: hepsheet-extra-cm
+  name: hepsheetapi-extra-cm
   data:
     GOOGLE_CLIENT_ID: 1035129365942-p7o81tm5fb8q9j6493jceabddf848uje.apps.googleusercontent.com
     GOOGLE_REDIRECT_URI: https://hepsheet.hepapi.com/api/auth/callback/google
