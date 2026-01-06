@@ -96,59 +96,59 @@ externalSecret:
   data:
     - secretKey: GOOGLE_CLIENT_SECRET
       remoteRef:
-        key: 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
+        key: "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"
         property: GOOGLE_CLIENT_SECRET
     - secretKey: DB_HOST
       remoteRef:
-        key: ulaq-test-db.cluster-cuxejpmehjle.eu-west-1.rds.amazonaws.com
+        key: "ulaq-test-db.cluster-cuxejpmehjle.eu-west-1.rds.amazonaws.com"
         property: DB_HOST
     - secretKey: DB_PORT
       remoteRef:
-        key: 5432
+        key: "5432"
         property: DB_PORT
     - secretKey: DB_USER
       remoteRef:
-        key: hepsheet
+        key: "hepsheet"
         property: DB_USER
     - secretKey: DB_PASSWORD
       remoteRef:
-        key: hepsheet2024!
+        key: "hepsheet2024!"
         property: DB_PASSWORD
     - secretKey: DB_NAME
       remoteRef:
-        key: hepsheet
+        key: "hepsheet"
         property: DB_NAME
     - secretKey: DB_SCHEMA
       remoteRef:
-        key: public
+        key: "public"
         property: DB_SCHEMA
     - secretKey: ADMIN_NAME
       remoteRef:
-        key: Ümit Özdemir
+        key: "Ümit Özdemir"
         property: ADMIN_NAME
     - secretKey: ADMIN_EMAIL
       remoteRef:
-        key: umit@hepapi.com
+        key: "umit@hepapi.com"
         property: ADMIN_EMAIL
     - secretKey: ADMIN_PASSWORD
       remoteRef:
-        key: adminpassword
+        key: "adminpassword"
         property: ADMIN_PASSWORD
     - secretKey: ADMIN_TITLE
       remoteRef:
-        key: Administrator
+        key: "Administrator"
         property: ADMIN_TITLE
     - secretKey: DEFAULT_PASSWORD
       remoteRef:
-        key: hepapi1234
+        key: "hepapi1234"
         property: DEFAULT_PASSWORD
 
 extraConfigMap:
   name: hepsheetapi-extra-cm
   data:
-    GOOGLE_CLIENT_ID: 1035129365942-p7o81tm5fb8q9j6493jceabddf848uje.apps.googleusercontent.com
-    GOOGLE_REDIRECT_URI: https://hepsheet.hepapi.com/api/auth/callback/google
-    PRETTY: 1
-    LOG_LEVEL: debug
-    DAILY_WORK_HOURS: 8
+    GOOGLE_CLIENT_ID: "1035129365942-p7o81tm5fb8q9j6493jceabddf848uje.apps.googleusercontent.com"
+    GOOGLE_REDIRECT_URI: "https://hepsheet.hepapi.com/api/auth/callback/google"
+    PRETTY: "1"
+    LOG_LEVEL: "debug"
+    DAILY_WORK_HOURS: "8"
 
