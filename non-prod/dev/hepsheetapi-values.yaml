@@ -88,20 +88,20 @@ affinity: {}
 extraConfigMap:
   name: hepsheetapi-extra-cm
   data:
-    GOOGLE_CLIENT_ID: 1035129365942-p7o81tm5fb8q9j6493jceabddf848uje.apps.googleusercontent.com
-    GOOGLE_REDIRECT_URI: https://hepsheet.hepapi.com/api/auth/callback/google
+    GOOGLE_CLIENT_ID: "1035129365942-p7o81tm5fb8q9j6493jceabddf848uje.apps.googleusercontent.com"
+    GOOGLE_REDIRECT_URI: "https://hepsheet.hepapi.com/api/auth/callback/google"
     PRETTY: "1"
-    LOG_LEVEL: debug
+    LOG_LEVEL: "debug"
     DAILY_WORK_HOURS: "8"
-    DEFAULT_PASSWORD: hepapi1234
-    ADMIN_TITLE: Administrator
-    ADMIN_EMAIL: umit@hepapi.com
-    ADMIN_NAME: Ümit Özdemir
-    DB_SCHEMA: public
-    DB_NAME: hepsheet
-    DB_PASSWORD: hepsheet2024!
-    DB_USER: hepsheet
+    DEFAULT_PASSWORD: "hepapi1234"
+    ADMIN_TITLE: "Administrator"
+    ADMIN_EMAIL: "umit@hepapi.com"
+    ADMIN_NAME: "Ümit Özdemir"
+    DB_SCHEMA: "public"
+    DB_NAME: "hepsheet"
+    DB_PASSWORD: "hepsheet2024!"
+    DB_USER: "hepsheet"
     DB_PORT: "5432"
-    DB_HOST: ulaq-test-db.cluster-cuxejpmehjle.eu-west-1.rds.amazonaws.com
-    GOOGLE_CLIENT_SECRET: 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
+    DB_HOST: "ulaq-test-db.cluster-cuxejpmehjle.eu-west-1.rds.amazonaws.com"
+    GOOGLE_CLIENT_SECRET: "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"
 
