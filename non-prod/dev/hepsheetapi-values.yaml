@@ -96,7 +96,7 @@ extraConfigMap:
     DEFAULT_PASSWORD: hepapi1234
     ADMIN_TITLE: Administrator
     ADMIN_EMAIL: umit@hepapi.com
-    ADMIN_NAME: "Ümit Özdemir"
+    ADMIN_NAME: Ümit Özdemir
     DB_SCHEMA: public
     DB_NAME: hepsheet
     DB_PASSWORD: hepsheet2024!
