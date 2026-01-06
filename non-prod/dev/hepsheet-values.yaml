@@ -84,6 +84,12 @@ affinity: {}
 
 externalSecret:
   name: hepsheet-external-secret
+  secretStoreRef:
+    name: vault-backend
+    kind: ClusterSecretStore
+  target:
+    name: hepsheet-external-secret
+    creationPolicy: Owner
   data:
     - secretKey: GOOGLE_CLIENT_SECRET
       remoteRef:
