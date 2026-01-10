@@ -1,0 +1,80 @@
+replicaCount: 1
+
+image:
+  repository: rabbitmq
+  tag: 3.13-management
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+
+nameOverride: "eventbus"
+fullnameOverride: "eventbus"
+
+serviceAccount:
+  create: false
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext:
+  fsGroup: 999
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 5672
+  targetPort: 5672
+  portName: amqp
+  tcpProbe:
+    enabled: true
+    port: 5672
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    readinessInitialDelaySeconds: 10
+    readinessPeriodSeconds: 10
+    readinessTimeoutSeconds: 5
+    readinessFailureThreshold: 6
+  grpcProbe:
+    enabled: false
+  livenessProbe:
+    enabled: false
+  readinessProbe:
+    enabled: false
+
+persistence:
+  enabled: true
+  mountPath: /var/lib/rabbitmq
+  size: 1Gi
+  accessMode: ReadWriteOnce
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 300m
+    memory: 512Mi
+
+autoscaling:
+  enabled: false
+
+extraConfigMap: null
+
+env:
+  - name: RABBITMQ_DEFAULT_USER
+    value: "guest"
+  - name: RABBITMQ_DEFAULT_PASS
+    value: "guest"
+  - name: RABBITMQ_LOOPBACK_USERS
+    value: "none"
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+ingress:
+  enabled: false
