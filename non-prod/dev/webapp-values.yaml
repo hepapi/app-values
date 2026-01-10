@@ -40,7 +40,7 @@ ingress:
     cert-manager.io/cluster-issuer: "letsencrypt"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-  ingressClassName: "nginx"
+  className: "nginx"
   pathType: Prefix
   activeService: true
   hosts:
