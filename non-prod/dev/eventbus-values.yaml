@@ -5,7 +5,8 @@ image:
   tag: 3.13-management
   pullPolicy: IfNotPresent
 
-imagePullSecrets: []
+imagePullSecrets:
+  - name: nexus-regcred
 
 nameOverride: "eventbus"
 fullnameOverride: "eventbus"
