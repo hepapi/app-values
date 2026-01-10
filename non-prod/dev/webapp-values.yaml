@@ -1,0 +1,84 @@
+replicaCount: 1
+
+image:
+  repository: managed-by-jenkins
+  tag: managed-by-jenkins
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - name: nexus-regcred
+
+nameOverride: "webapp"
+fullnameOverride: "webapp"
+
+serviceAccount:
+  create: false
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 8080
+  targetPort: 8080
+  livenessProbe:
+    enabled: false
+    path: "/health"
+    port: http
+  readinessProbe:
+    enabled: false
+    path: "/health"
+    port: http
+
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+  ingressClassName: "nginx"
+  pathType: Prefix
+  activeService: true
+  hosts:
+    - host: eshop.hepapi.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: eshop-hepapi-tls
+      hosts:
+        - eshop.hepapi.com
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 768Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+tolerations: []
+affinity: {}
+
+extraConfigMap: null
+
+env:
+  - name: ASPNETCORE_URLS
+    value: "http://+:8080"
+  - name: ConnectionStrings__EventBus
+    value: "amqp://eventbus"
+  - name: IdentityUrl
+    value: "https://identity.hepapi.com"
+  - name: CallBackUrl
+    value: "https://eshop.hepapi.com"

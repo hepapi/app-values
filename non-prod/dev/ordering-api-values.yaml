@@ -1,0 +1,68 @@
+replicaCount: 1
+
+image:
+  repository: managed-by-jenkins
+  tag: managed-by-jenkins
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - name: nexus-regcred
+
+nameOverride: "ordering-api"
+fullnameOverride: "ordering-api"
+
+serviceAccount:
+  create: false
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 8080
+  targetPort: 8080
+  livenessProbe:
+    enabled: false
+    path: "/health"
+    port: http
+  readinessProbe:
+    enabled: false
+    path: "/health"
+    port: http
+
+ingress:
+  enabled: false
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+tolerations: []
+affinity: {}
+
+extraConfigMap: null
+
+env:
+  - name: ASPNETCORE_URLS
+    value: "http://+:8080"
+  - name: ConnectionStrings__orderingdb
+    value: "Host=postgres.database;Database=orderingdb;Username=postgres;Password=postgres"
+  - name: ConnectionStrings__EventBus
+    value: "amqp://eventbus"
+  - name: Identity__Url
+    value: "https://identity.hepapi.com"
