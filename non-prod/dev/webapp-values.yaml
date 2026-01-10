@@ -73,12 +73,27 @@ affinity: {}
 
 extraConfigMap: null
 
+# PVC için
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 1Gi
+  mountPath: /app/keys
+
 env:
   - name: ASPNETCORE_URLS
     value: "http://+:8080"
+  - name: ASPNETCORE_ENVIRONMENT
+    value: "Development"
   - name: ConnectionStrings__EventBus
     value: "amqp://eventbus"
   - name: IdentityUrl
-    value: "https://identity.hepapi.com"
+    value: "http://identity-api"
+  - name: IdentityUrlExternal
+    value: "http://identity.hepapi.com"
   - name: CallBackUrl
-    value: "https://eshop.hepapi.com"
+    value: "http://eshop.hepapi.com"
+  - name: PushedAuthorizationBehavior
+    value: "Disable"
+  - name: RequireHttpsMetadata
+    value: "false"
