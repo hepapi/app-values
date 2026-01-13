@@ -79,6 +79,9 @@ persistence:
   accessMode: ReadWriteOnce
   size: 1Gi
   mountPath: /app/keys
+  annotations:
+    "helm.sh/resource-policy": keep
+    "argocd.argoproj.io/sync-options": Prune=false
 
 env:
   - name: ASPNETCORE_URLS
