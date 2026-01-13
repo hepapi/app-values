@@ -81,7 +81,7 @@ env:
   - name: ConnectionStrings__identitydb
     value: "Host=postgres.database;Database=identitydb;Username=postgres;Password=postgres"
   - name: WebAppClient
-    value: "https://eshop.172-23-38-11.nip.io"
+    value: "https://eshop.hepapi.com"
   - name: WebhooksWebClient
     value: "https://webhooksclient.hepapi.com"
   - name: WebhooksApiClient
