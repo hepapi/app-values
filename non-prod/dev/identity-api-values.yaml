@@ -76,6 +76,8 @@ extraConfigMap: null
 env:
   - name: ASPNETCORE_URLS
     value: "http://+:8080"
+  - name: IdentityServer__IssuerUri
+    value: "https://identity.hepapi.com"
   - name: ConnectionStrings__identitydb
     value: "Host=postgres.database;Database=identitydb;Username=postgres;Password=postgres"
   - name: WebAppClient
