@@ -88,11 +88,11 @@ env:
   - name: ConnectionStrings__EventBus
     value: "amqp://eventbus"
   - name: IdentityUrl
-    value: "http://identity-api"
+    value: "https://identity.hepapi.com"
   - name: IdentityUrlExternal
-    value: "http://identity.hepapi.com"
+    value: "https://identity.hepapi.com"
   - name: CallBackUrl
-    value: "http://eshop.hepapi.com"
+    value: "https://eshop.hepapi.com"
   - name: PushedAuthorizationBehavior
     value: "Disable"
   - name: RequireHttpsMetadata
