@@ -85,6 +85,8 @@ env:
     value: "http://+:8080"
   - name: ASPNETCORE_ENVIRONMENT
     value: "Development"
+  - name: ASPNETCORE_DATA_PROTECTION__KEYS_DIRECTORY
+    value: "/app/keys"
   - name: ConnectionStrings__EventBus
     value: "amqp://eventbus"
   - name: IdentityUrl
