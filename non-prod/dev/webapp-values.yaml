@@ -44,14 +44,14 @@ ingress:
   pathType: Prefix
   activeService: true
   hosts:
-    - host: eshop.hepapi.com
+    - host: eshop.172-23-38-11.nip.io
       paths:
         - path: /
           pathType: Prefix
   tls:
     - secretName: eshop-hepapi-tls
       hosts:
-        - eshop.hepapi.com
+        - eshop.172-23-38-11.nip.io
 
 resources:
   limits:
@@ -99,7 +99,7 @@ env:
   - name: IdentityUrlExternal
     value: "https://identity.hepapi.com"
   - name: CallBackUrl
-    value: "https://eshop.hepapi.com"
+    value: "https://eshop.172-23-38-11.nip.io"
   - name: PushedAuthorizationBehavior
     value: "Disable"
   - name: RequireHttpsMetadata
