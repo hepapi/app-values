@@ -87,6 +87,8 @@ env:
     value: "Development"
   - name: ASPNETCORE_DATA_PROTECTION__KEYS_DIRECTORY
     value: "/app/keys"
+  - name: ASPNETCORE_FORWARDEDHEADERS_ENABLED
+    value: "true"
   - name: ConnectionStrings__EventBus
     value: "amqp://eventbus"
   - name: IdentityUrl
