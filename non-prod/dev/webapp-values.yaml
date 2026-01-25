@@ -18,8 +18,11 @@ serviceAccount:
 
 podAnnotations: {}
 
-podSecurityContext: {}
-securityContext: {}
+podSecurityContext:
+  fsGroup: 1654
+securityContext:
+  runAsUser: 1654
+  runAsNonRoot: true
 
 service:
   type: ClusterIP
