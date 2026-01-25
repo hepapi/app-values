@@ -77,6 +77,16 @@ autoscaling:
 tolerations: []
 affinity: {}
 
+initContainers:
+  - name: fix-permissions
+    image: busybox:latest
+    command: ["sh", "-c", "chown -R 1654:1654 /app/keys && chmod -R 755 /app/keys"]
+    volumeMounts:
+      - name: webapp-volume
+        mountPath: /app/keys
+    securityContext:
+      runAsUser: 0
+
 extraConfigMap: null
 
 # PVC için
