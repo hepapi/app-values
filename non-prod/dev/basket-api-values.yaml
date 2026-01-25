@@ -61,7 +61,7 @@ env:
   - name: ASPNETCORE_URLS
     value: "http://+:8080"
   - name: ConnectionStrings__Redis
-    value: "redis"
+    value: "redis-master"
   - name: ConnectionStrings__EventBus
     value: "amqp://eventbus"
   - name: Identity__Url

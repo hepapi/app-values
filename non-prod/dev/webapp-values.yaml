@@ -40,6 +40,9 @@ ingress:
     cert-manager.io/cluster-issuer: "letsencrypt"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
+    nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
+    nginx.ingress.kubernetes.io/use-forwarded-headers: "true"
   className: "nginx"
   pathType: Prefix
   activeService: true
@@ -90,8 +93,12 @@ env:
     value: "Development"
   - name: ASPNETCORE_DATA_PROTECTION__KEYS_DIRECTORY
     value: "/app/keys"
+  - name: DataProtection__ApplicationDiscriminator
+    value: "eShop.WebApp"
   - name: ASPNETCORE_FORWARDEDHEADERS_ENABLED
     value: "true"
+  - name: ASPNETCORE_HTTPS_PORT
+    value: "443"
   - name: ConnectionStrings__EventBus
     value: "amqp://eventbus"
   - name: IdentityUrl
