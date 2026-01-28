@@ -16,7 +16,8 @@ serviceAccount:
   annotations: {}
   name: ""
 
-podAnnotations: {}
+podAnnotations:
+  instrumentation.opentelemetry.io/inject-dotnet: monitoring/dotnet-instrumentation-100
 
 podSecurityContext:
   fsGroup: 999
